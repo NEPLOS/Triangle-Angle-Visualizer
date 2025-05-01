@@ -3,6 +3,8 @@
 #include <cmath>
 #include "raylib.h"
 
+bool holdSometing = false;
+
 class circle
 {
 
@@ -28,17 +30,31 @@ public:
 	{
 		Vector2 m = GetMousePosition();
 
+		if(holdSometing == true && holding == false)
+		{
+			DrawCircle(position.x, position.y, radius, colour);
+			return;
+		}
+
+		if ((Collision(m) && IsMouseButtonDown(MOUSE_LEFT_BUTTON) || IsMouseButtonDown(MOUSE_LEFT_BUTTON) && holding) && holdSometing == false)
+		{
+			// position.x = m.x;
+			// position.y = m.y;
+			holding = true;
+			holdSometing = true;
+		}
 
 		if (Collision(m) && IsMouseButtonDown(MOUSE_LEFT_BUTTON) || IsMouseButtonDown(MOUSE_LEFT_BUTTON) && holding)
 		{
 			position.x = m.x;
 			position.y = m.y;
-			holding = true;
 		}
+		
 
 		if (!IsMouseButtonDown(MOUSE_LEFT_BUTTON))
 		{
 			holding = false;
+			holdSometing = false;
 		}
 
 		DrawCircle(position.x, position.y, radius, colour);
